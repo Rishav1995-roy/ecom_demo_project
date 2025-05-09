@@ -1,4 +1,5 @@
 import 'package:connectivity_checker/connectivity_checker.dart';
+import 'package:ecom_demo/feature/category_details/screen/category_screen.dart';
 import 'package:ecom_demo/feature/home/Widget/appbar_widget.dart';
 import 'package:ecom_demo/feature/home/Widget/category_widget.dart';
 import 'package:ecom_demo/feature/home/Widget/product_widget.dart';
@@ -6,14 +7,33 @@ import 'package:ecom_demo/feature/home/Widget/serach_widget.dart';
 import 'package:ecom_demo/feature/home/bloc/home_screen_bloc.dart';
 import 'package:ecom_demo/models/category_list_model.dart';
 import 'package:ecom_demo/models/product_list_model.dart';
+import 'package:ecom_demo/network/respository/home_repository.dart';
 import 'package:ecom_demo/utils/context_utils.dart';
 import 'package:ecom_demo/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  static const String routeName = '/';
+
+  static GoRoute route({
+    required HomeRepository homeRepository,
+  }) {
+    return GoRoute(
+      name: 'splash',
+      path: HomeScreen.routeName,
+      builder: (BuildContext context, GoRouterState state) {
+        return BlocProvider(
+          create: (context) => HomeScreenBloc(homeRepository: homeRepository),
+          child: const HomeScreen(),
+        );
+      },
+    );
+  }
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
   List<CategoryListModel> categoryList = [];
   List<ProductListModel> productList = [];
+  List<ProductListModel> filterProductList = [];
+  TextEditingController searchController = TextEditingController();
   ScrollController categoryListViewController = ScrollController();
   ScrollController productListViewController = ScrollController();
   int productLimit = 10;
@@ -32,6 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    searchController.addListener(() {
+      filterProductList = productList
+          .where((element) => element.title
+              .toLowerCase()
+              .contains(searchController.text.toLowerCase()))
+          .toList();
+    });
     context.afterWidgetBuilt(() {
       _fetchCategory(categoryLimit);
       _fetechProducts(productLimit, productOffset);
@@ -64,6 +93,27 @@ class _HomeScreenState extends State<HomeScreen> {
             limit: l,
           ),
         );
+  }
+
+  void _onSearchCahnged(String value) {
+    filterProductList = productList
+        .where((element) => element.title
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase()))
+        .toList();
+  }
+
+  void _goToCatgeory(
+    int id,
+    String name,
+  ) {
+    context.push(
+      CategoryScreen.routeName,
+      extra: {
+        'catgeoryName': name,
+        'categoryId': id,
+      },
+    );
   }
 
   @override
@@ -112,19 +162,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           HomeAppBarWidget(),
-                          HomeSearchWidget(),
+                          HomeSearchWidget(
+                            searchController: searchController,
+                            onSearchChanged: _onSearchCahnged,
+                          ),
                           context.paddingVertical(10),
                           Expanded(
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
                                   CategoryWidget(
-                                    categoryList: categoryList,
-                                    categoryListViewController:
-                                        categoryListViewController,
-                                  ),
+                                      categoryList: categoryList,
+                                      categoryListViewController:
+                                          categoryListViewController,
+                                      goToCatgeory: _goToCatgeory),
                                   ProductWidget(
-                                    productList: productList,
+                                    productList: searchController.text.isEmpty ? productList : filterProductList,
                                     productListViewController:
                                         productListViewController,
                                   )

@@ -31,4 +31,18 @@ class HomeServices {
       rethrow;
     }
   }
+
+  Future<dynamic> getCategoryProducts({
+    required String url,
+  }) async {
+    try {
+      final response = await _httpClient.executeGet(
+        url,
+        null,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

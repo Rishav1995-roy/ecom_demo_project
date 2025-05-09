@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 class CategoryWidget extends StatelessWidget {
   final List<CategoryListModel> categoryList;
   final ScrollController categoryListViewController;
+  final Function goToCatgeory;
   const CategoryWidget({
     super.key,
     required this.categoryList,
     required this.categoryListViewController,
+    required this.goToCatgeory,
   });
 
   @override
@@ -45,25 +47,31 @@ class CategoryWidget extends StatelessWidget {
               var cat = categoryList[index];
               return Padding(
                 padding: EdgeInsets.only(right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CacheImageWidget(
-                      imageWidth: 150,
-                      imageHeight: 150,
-                      imageUrl: cat.image,
-                    ),
-                    ctx.paddingVertical(10),
-                    Text(
-                      cat.name,
-                      style: CustomTextUtils.showPoppinsStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontColor: Colors.black,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    goToCatgeory(cat.id, cat.name);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CacheImageWidget(
+                        imageWidth: 150,
+                        imageHeight: 150,
+                        imageUrl: cat.image,
                       ),
-                    ),
-                  ],
+                      ctx.paddingVertical(10),
+                      Text(
+                        cat.name,
+                        style: CustomTextUtils.showPoppinsStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontColor: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

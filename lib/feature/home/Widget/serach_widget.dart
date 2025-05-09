@@ -4,7 +4,13 @@ import 'package:ecom_demo/utils/strings.dart';
 import 'package:flutter/material.dart';
 
 class HomeSearchWidget extends StatelessWidget {
-  const HomeSearchWidget({super.key});
+  final TextEditingController searchController;
+  final Function onSearchChanged;
+  const HomeSearchWidget({
+    super.key,
+    required this.searchController,
+    required this.onSearchChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +30,28 @@ class HomeSearchWidget extends StatelessWidget {
         children: [
           const Icon(Icons.search, color: Colors.grey),
           context.paddingHorizontal(10),
-          Text(
-            Strings.search,
-            style: CustomTextUtils.showPoppinsStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              fontColor: Colors.black,
+          Expanded(
+            child: TextField(
+              controller: searchController,
+              onChanged: (value) {
+                onSearchChanged(value);
+              },
+              decoration: InputDecoration(
+                constraints: BoxConstraints(
+                  maxHeight: 15, // For fixed height, set both min and max to the same value
+                ),
+                hintText: Strings.search,
+                isDense: false,
+                contentPadding: const EdgeInsets.only(
+                  bottom: 13,
+                ),
+                border: InputBorder.none,
+                hintStyle: CustomTextUtils.showPoppinsStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  fontColor: Colors.grey,
+                ),
+              ),
             ),
           ),
         ],

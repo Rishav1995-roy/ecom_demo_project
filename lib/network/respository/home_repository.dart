@@ -40,4 +40,22 @@ class HomeRepository {
       rethrow;
     }
   } 
+
+  Future<List<ProductListModel>> getCategoryProducts({
+    required int offset,
+    required int limit,
+    required int categoryId,
+  }) async {
+    try {
+      final response = await _homeServices.getCategoryProducts(
+        url: '${EndPointsService.getCategoryDetails}$categoryId/products?limit=$limit&offset=$offset',
+      );
+      List<ProductListModel> productList = response
+          .map<ProductListModel>((json) => ProductListModel.fromJson(json))
+          .toList();
+      return productList;    
+    } catch (e) {
+      rethrow;
+    }
+  } 
 }

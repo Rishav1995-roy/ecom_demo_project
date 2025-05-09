@@ -7,6 +7,12 @@ class Strings {
   static const rupeesText = '₹';
 
 
+  //routes
+  static const String categoryScreen = '/category';
+  static const String productDetailsScreen = '/product';
+  static const String cartScreen = '/cart';
+
+
   //error
   static const String noInternet = 'No Internet Connection';
   static const String serverError = 'Server Error';
