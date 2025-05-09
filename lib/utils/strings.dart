@@ -6,12 +6,8 @@ class Strings {
   static const String products = 'Products';
   static const rupeesText = '₹';
   static const back = 'Back';
+  static const similarProducts = 'Similar Products';
 
-
-  //routes
-  static const String categoryScreen = '/category';
-  static const String productDetailsScreen = '/product';
-  static const String cartScreen = '/cart';
 
 
   //error

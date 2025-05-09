@@ -1,5 +1,6 @@
 import 'package:ecom_demo/feature/category_details/bloc/category_screen_bloc.dart';
 import 'package:ecom_demo/feature/home/Widget/serach_widget.dart';
+import 'package:ecom_demo/feature/product_details/screen/product_details_screen.dart';
 import 'package:ecom_demo/models/product_list_model.dart';
 import 'package:ecom_demo/network/respository/home_repository.dart';
 import 'package:ecom_demo/utils/common_widget/custom_text_utils.dart';
@@ -87,9 +88,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
             .toLowerCase()
             .contains(searchController.text.toLowerCase()))
         .toList();
-    if(mounted) {
+    if (mounted) {
       setState(() {});
-    }    
+    }
   }
 
   void _fetechProducts(int l, int o) async {
@@ -129,8 +130,47 @@ class _CategoryScreenState extends State<CategoryScreen> {
             body: isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : productList.isEmpty
-                    ? const Center(
-                        child: Text('No Products Found'),
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 15,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                  icon: const Icon(Icons.arrow_back),
+                                ),
+                                context.paddingHorizontal(5),
+                                Text(
+                                  widget.categoryName,
+                                  style: CustomTextUtils.showPoppinsStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    fontColor: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 140,
+                                vertical: 300,
+                              ),
+                              child: Text('No prducts found'),
+                            ),
+                          ),
+                        ],
                       )
                     : SingleChildScrollView(
                         child: Column(
@@ -175,15 +215,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               child: ListView.builder(
                                 controller: productListViewController,
                                 shrinkWrap: true,
-                                itemCount: searchController.text.isEmpty ? productList.length : filterProductList.length,
+                                itemCount: searchController.text.isEmpty
+                                    ? productList.length
+                                    : filterProductList.length,
                                 itemBuilder: (context, index) {
                                   var prod = searchController.text.isEmpty
                                       ? productList[index]
                                       : filterProductList[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      context.pushNamed(
-                                        Strings.productDetailsScreen,
+                                      context.push(
+                                        ProductDetailsScreen.routeName,
                                         extra: prod.id,
                                       );
                                     },
@@ -200,8 +242,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                           CacheImageWidget(
                                             imageWidth: 100,
                                             imageHeight: 150,
-                                            imageUrl:
-                                                prod.images[0],
+                                            imageUrl: prod.images[0],
                                           ),
                                           context.paddingHorizontal(10),
                                           Expanded(

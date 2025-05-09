@@ -5,6 +5,7 @@ import 'package:ecom_demo/feature/home/Widget/category_widget.dart';
 import 'package:ecom_demo/feature/home/Widget/product_widget.dart';
 import 'package:ecom_demo/feature/home/Widget/serach_widget.dart';
 import 'package:ecom_demo/feature/home/bloc/home_screen_bloc.dart';
+import 'package:ecom_demo/feature/product_details/screen/product_details_screen.dart';
 import 'package:ecom_demo/models/category_list_model.dart';
 import 'package:ecom_demo/models/product_list_model.dart';
 import 'package:ecom_demo/network/respository/home_repository.dart';
@@ -121,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _goToProductDetails(int id) {
     context.push(
-      Strings.productDetailsScreen,
+      ProductDetailsScreen.routeName,
       extra: id,
     );
   }
