@@ -180,35 +180,43 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   var prod = searchController.text.isEmpty
                                       ? productList[index]
                                       : filterProductList[index];
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 20,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        CacheImageWidget(
-                                          imageWidth: 100,
-                                          imageHeight: 150,
-                                          imageUrl:
-                                              prod.images[0],
-                                        ),
-                                        context.paddingHorizontal(10),
-                                        Expanded(
-                                          child: Text(
-                                            prod.title,
-                                            style: CustomTextUtils
-                                                .showPoppinsStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              fontColor: Colors.black,
+                                  return GestureDetector(
+                                    onTap: () {
+                                      context.pushNamed(
+                                        Strings.productDetailsScreen,
+                                        extra: prod.id,
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 20,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          CacheImageWidget(
+                                            imageWidth: 100,
+                                            imageHeight: 150,
+                                            imageUrl:
+                                                prod.images[0],
+                                          ),
+                                          context.paddingHorizontal(10),
+                                          Expanded(
+                                            child: Text(
+                                              prod.title,
+                                              style: CustomTextUtils
+                                                  .showPoppinsStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontColor: Colors.black,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },

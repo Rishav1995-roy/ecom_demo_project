@@ -14,7 +14,37 @@ class HomeRepository {
   }) async {
     try {
       final response = await _homeServices.getProducts(
-        url: '${EndPointsService.getProductDetails}?limit=$limit&offset=$offset',
+        url: '${EndPointsService.getProductsList}?limit=$limit&offset=$offset',
+      );
+      List<ProductListModel> productList = response
+          .map<ProductListModel>((json) => ProductListModel.fromJson(json))
+          .toList();
+      return productList;    
+    } catch (e) {
+      rethrow;
+    }
+  } 
+
+  Future<ProductListModel> getProductsDetails({
+    required int productID,
+  }) async {
+    try {
+      final response = await _homeServices.getProducts(
+        url: '${EndPointsService.getProductDetails}$productID',
+      );
+      ProductListModel productData = ProductListModel.fromJson(response);
+      return productData;    
+    } catch (e) {
+      rethrow;
+    }
+  } 
+
+  Future<List<ProductListModel>> getSimilarProducts({
+    required int productID,
+  }) async {
+    try {
+      final response = await _homeServices.getSimilarProducts(
+        url: '${EndPointsService.getProductDetails}$productID/related',
       );
       List<ProductListModel> productList = response
           .map<ProductListModel>((json) => ProductListModel.fromJson(json))

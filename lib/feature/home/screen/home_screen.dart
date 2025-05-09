@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
             .toLowerCase()
             .contains(searchController.text.toLowerCase()))
         .toList();
-    if(mounted) {
+    if (mounted) {
       setState(() {});
     }
   }
@@ -116,6 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
         'catgeoryName': name,
         'categoryId': id,
       },
+    );
+  }
+
+  void _goToProductDetails(int id) {
+    context.push(
+      Strings.productDetailsScreen,
+      extra: id,
     );
   }
 
@@ -175,15 +182,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Column(
                                 children: [
                                   CategoryWidget(
-                                      categoryList: categoryList,
-                                      categoryListViewController:
-                                          categoryListViewController,
-                                      goToCatgeory: _goToCatgeory),
+                                    categoryList: categoryList,
+                                    categoryListViewController:
+                                        categoryListViewController,
+                                    goToCatgeory: _goToCatgeory,
+                                  ),
                                   ProductWidget(
-                                    productList: searchController.text.isEmpty ? productList : filterProductList,
+                                    productList: searchController.text.isEmpty
+                                        ? productList
+                                        : filterProductList,
                                     productListViewController:
                                         productListViewController,
-                                  )
+                                    onTap: _goToProductDetails,
+                                  ),
                                 ],
                               ),
                             ),

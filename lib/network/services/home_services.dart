@@ -45,4 +45,32 @@ class HomeServices {
       rethrow;
     }
   }
+
+  Future<dynamic> getProductDetails({
+    required String url,
+  }) async {
+    try {
+      final response = await _httpClient.executeGet(
+        url,
+        null,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> getSimilarProducts({
+    required String url,
+  }) async {
+    try {
+      final response = await _httpClient.executeGet(
+        url,
+        null,
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

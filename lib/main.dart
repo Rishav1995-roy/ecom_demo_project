@@ -1,6 +1,7 @@
 import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:ecom_demo/feature/category_details/screen/category_screen.dart';
 import 'package:ecom_demo/feature/home/screen/home_screen.dart';
+import 'package:ecom_demo/feature/product_details/screen/product_details_screen.dart';
 import 'package:ecom_demo/locator.dart';
 import 'package:ecom_demo/network/respository/home_repository.dart';
 import 'package:ecom_demo/utils/common_widget/dismiss_widget.dart';
@@ -55,6 +56,9 @@ final GoRouter _router = GoRouter(
       homeRepository: locator<HomeRepository>(),
     ),
     CategoryScreen.route(
+      homeRepository: locator<HomeRepository>(),
+    ),
+    ProductDetailsScreen.route(
       homeRepository: locator<HomeRepository>(),
     ),
   ],

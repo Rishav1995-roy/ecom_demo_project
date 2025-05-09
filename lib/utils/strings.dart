@@ -5,6 +5,7 @@ class Strings {
   static const String category = 'Catrgories';
   static const String products = 'Products';
   static const rupeesText = '₹';
+  static const back = 'Back';
 
 
   //routes

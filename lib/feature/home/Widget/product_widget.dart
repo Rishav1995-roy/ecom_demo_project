@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 class ProductWidget extends StatelessWidget {
   final List<ProductListModel> productList;
   final ScrollController productListViewController;
+  final Function onTap;
   const ProductWidget({
     super.key,
     required this.productList,
     required this.productListViewController,
+    required this.onTap,
   });
 
   @override
@@ -51,57 +53,63 @@ class ProductWidget extends StatelessWidget {
               var prod = productList[index];
               return LayoutBuilder(
                 builder: (context, constraints) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 170,
-                        height: 170,
-                        child: Stack(
-                          children: [
-                            CacheImageWidget(
-                              imageWidth: 170,
-                              imageHeight: 170,
-                              imageUrl: prod.images[0],
-                            ),
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: Container(
-                                  color: Colors.white.withValues(alpha: 0.6),
-                                  padding: const EdgeInsets.all(5),
-                                  child: Icon(
-                                    Icons.add_shopping_cart,
-                                    color: Colors.black,
-                                  )
+                  return GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      onTap(prod.id);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 170,
+                          height: 170,
+                          child: Stack(
+                            children: [
+                              CacheImageWidget(
+                                imageWidth: 170,
+                                imageHeight: 170,
+                                imageUrl: prod.images[0],
+                              ),
+                              Positioned(
+                                top: 10,
+                                right: 10,
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    color: Colors.white.withValues(alpha: 0.6),
+                                    padding: const EdgeInsets.all(5),
+                                    child: Icon(
+                                      Icons.add_shopping_cart,
+                                      color: Colors.black,
+                                    )
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      context.paddingVertical(10),
-                      Text(
-                        prod.title,
-                        style: CustomTextUtils.showPoppinsStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontColor: Colors.black,
+                        context.paddingVertical(10),
+                        Text(
+                          prod.title,
+                          style: CustomTextUtils.showPoppinsStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            fontColor: Colors.black,
+                          ),
                         ),
-                      ),
-                      context.paddingVertical(10),
-                      Text(
-                        context.convertCurrencyInBottomSheet(double.parse(prod.price.toString())),
-                        style: CustomTextUtils.showPoppinsStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontColor: Colors.black,
+                        context.paddingVertical(10),
+                        Text(
+                          context.convertCurrencyInBottomSheet(double.parse(prod.price.toString())),
+                          style: CustomTextUtils.showPoppinsStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            fontColor: Colors.black,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );  
                 },
               );
