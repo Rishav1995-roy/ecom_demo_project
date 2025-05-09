@@ -1,0 +1,37 @@
+import 'package:ecom_demo/models/product_list_model.dart';
+import 'package:ecom_demo/network/respository/home_repository.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+part 'home_screen_event.dart';
+part 'home_screen_state.dart';
+
+class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
+
+  late HomeRepository _homeRepository;
+
+  HomeScreenBloc({
+    required HomeRepository homeRepository,
+  }): super(HomeScreenInitial()) {
+    _homeRepository = homeRepository;
+    on<FetchProductsEvent>(_onFetchProducts);
+  }
+
+  void _onFetchProducts(
+    FetchProductsEvent event,
+    Emitter<HomeScreenState> emit,
+  ) async {
+    emit(ProductListLoading());
+    try {
+      final List<ProductListModel> productList = await _homeRepository.getProducts(
+        limit: event.limit,
+        offset: event.offset,
+      );
+      emit(ProductListLoaded(productList));
+    } catch (e) {
+      emit(ProductListError(e.toString()));
+    }
+  }
+
+
+}
