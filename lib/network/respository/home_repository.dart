@@ -2,6 +2,8 @@ import 'package:ecom_demo/models/category_list_model.dart';
 import 'package:ecom_demo/models/product_list_model.dart';
 import 'package:ecom_demo/network/end_points_service.dart';
 import 'package:ecom_demo/network/services/home_services.dart';
+import 'package:ecom_demo/utils/local_storage.dart';
+import 'package:rxdart/rxdart.dart';
 
 class HomeRepository {
   final HomeServices _homeServices;
@@ -88,4 +90,23 @@ class HomeRepository {
       rethrow;
     }
   } 
+
+  final _cartCountController = BehaviorSubject<int>();
+
+  ValueStream<int> get cartCountDataStream =>
+      _cartCountController.stream;
+
+  Future<void> addToCart({required ProductListModel data}) async{
+    LocalStorage.addToCart(data);
+    getCount();
+  } 
+
+  Future<void> removeFromCart({required ProductListModel data}) async{
+    LocalStorage.removeFromCart(data.id.toString());
+    getCount();
+  } 
+
+  void getCount() {
+    _cartCountController.sink.add(LocalStorage.getCartItemCount());
+  }  
 }

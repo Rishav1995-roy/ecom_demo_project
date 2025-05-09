@@ -127,87 +127,104 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _addToCart(ProductListModel data) {
+    context.read<HomeScreenBloc>().add(
+          AddToCart(
+            productListModel: data,
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeScreenBloc, HomeScreenState>(
-      listener: (context, state) {
-        if (state is CategoryListLoading) {
-          if (categoryList.isEmpty) {
-            isLoading = true;
-          }
-          isLoading = true;
-        } else if (state is CategoryListLoaded) {
-          categoryLimit += 10;
-          categoryList.addAll(state.categoryList);
-        } else if (state is CategoryListError || state is ProductListError) {
-          isLoading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(Strings.somethingWentWrong),
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        } else if (state is ProductListLoaded) {
-          isLoading = false;
-          productOffset += 10;
-          productLimit += 10;
-          productList.addAll(state.productList);
-        }
-      },
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            body: ConnectivityWidgetWrapper(
-              message: Strings.noInternet,
-              child: SizedBox(
-                width: context.getWidth(),
-                height: context.getHeight(),
-                child: isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue,
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HomeAppBarWidget(),
-                          HomeSearchWidget(
-                            searchController: searchController,
-                            onSearchChanged: _onSearchCahnged,
-                          ),
-                          context.paddingVertical(10),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  CategoryWidget(
-                                    categoryList: categoryList,
-                                    categoryListViewController:
-                                        categoryListViewController,
-                                    goToCatgeory: _goToCatgeory,
-                                  ),
-                                  ProductWidget(
-                                    productList: searchController.text.isEmpty
-                                        ? productList
-                                        : filterProductList,
-                                    productListViewController:
-                                        productListViewController,
-                                    onTap: _goToProductDetails,
-                                  ),
-                                ],
-                              ),
+    return StreamBuilder(
+      stream: context.read<HomeScreenBloc>().cartCountStream,
+      builder: (context, snapshot) {
+        return BlocConsumer<HomeScreenBloc, HomeScreenState>(
+          listener: (context, state) {
+            if (state is CategoryListLoading) {
+              if (categoryList.isEmpty) {
+                isLoading = true;
+              }
+              isLoading = true;
+            } else if (state is CategoryListLoaded) {
+              categoryLimit += 10;
+              categoryList.addAll(state.categoryList);
+            } else if (state is CategoryListError ||
+                state is ProductListError) {
+              isLoading = false;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(Strings.somethingWentWrong),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            } else if (state is ProductListLoaded) {
+              isLoading = false;
+              productOffset += 10;
+              productLimit += 10;
+              productList.addAll(state.productList);
+            }
+          },
+          builder: (context, state) {
+            return SafeArea(
+              child: Scaffold(
+                body: ConnectivityWidgetWrapper(
+                  message: Strings.noInternet,
+                  child: SizedBox(
+                    width: context.getWidth(),
+                    height: context.getHeight(),
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue,
                             ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HomeAppBarWidget(
+                                count: snapshot.data ?? 0,
+                              ),
+                              HomeSearchWidget(
+                                searchController: searchController,
+                                onSearchChanged: _onSearchCahnged,
+                              ),
+                              context.paddingVertical(10),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      CategoryWidget(
+                                        categoryList: categoryList,
+                                        categoryListViewController:
+                                            categoryListViewController,
+                                        goToCatgeory: _goToCatgeory,
+                                      ),
+                                      ProductWidget(
+                                        productList:
+                                            searchController.text.isEmpty
+                                                ? productList
+                                                : filterProductList,
+                                        productListViewController:
+                                            productListViewController,
+                                        onTap: _goToProductDetails,
+                                        addToCart: _addToCart,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
   }
 }
-//

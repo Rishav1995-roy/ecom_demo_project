@@ -9,11 +9,13 @@ class ProductWidget extends StatelessWidget {
   final List<ProductListModel> productList;
   final ScrollController productListViewController;
   final Function onTap;
+  final Function addToCart;
   const ProductWidget({
     super.key,
     required this.productList,
     required this.productListViewController,
     required this.onTap,
+    required this.addToCart,
   });
 
   @override
@@ -36,7 +38,9 @@ class ProductWidget extends StatelessWidget {
         ),
         context.paddingVertical(10),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20,),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
           child: GridView.builder(
             padding: EdgeInsets.zero,
             cacheExtent: 10,
@@ -77,13 +81,19 @@ class ProductWidget extends StatelessWidget {
                                 right: 10,
                                 child: Align(
                                   alignment: Alignment.topRight,
-                                  child: Container(
-                                    color: Colors.white.withValues(alpha: 0.6),
-                                    padding: const EdgeInsets.all(5),
-                                    child: Icon(
-                                      Icons.add_shopping_cart,
-                                      color: Colors.black,
-                                    )
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      addToCart(prod);
+                                    },
+                                    child: Container(
+                                      color:
+                                          Colors.white.withValues(alpha: 0.6),
+                                      padding: const EdgeInsets.all(5),
+                                      child: Icon(
+                                        Icons.add_shopping_cart,
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -101,7 +111,8 @@ class ProductWidget extends StatelessWidget {
                         ),
                         context.paddingVertical(10),
                         Text(
-                          context.convertCurrencyInBottomSheet(double.parse(prod.price.toString())),
+                          context.convertCurrencyInBottomSheet(
+                              double.parse(prod.price.toString())),
                           style: CustomTextUtils.showPoppinsStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
@@ -110,7 +121,7 @@ class ProductWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                  );  
+                  );
                 },
               );
             },

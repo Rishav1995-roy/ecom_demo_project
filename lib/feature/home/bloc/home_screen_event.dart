@@ -23,3 +23,12 @@ class FetchCategoryEvent extends HomeScreenEvent {
   @override 
   List<Object?> get props => [limit];
 }
+
+class AddToCart extends HomeScreenEvent {
+  final ProductListModel productListModel;
+
+  AddToCart({required this.productListModel});
+
+  @override 
+  List<Object?> get props => [productListModel];
+}

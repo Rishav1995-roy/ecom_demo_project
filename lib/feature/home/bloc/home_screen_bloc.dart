@@ -3,6 +3,7 @@ import 'package:ecom_demo/models/product_list_model.dart';
 import 'package:ecom_demo/network/respository/home_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'home_screen_event.dart';
 part 'home_screen_state.dart';
@@ -17,7 +18,18 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     _homeRepository = homeRepository;
     on<FetchProductsEvent>(_onFetchProducts);
     on<FetchCategoryEvent>(_onFetchCategory);
+    on<AddToCart>(_addToCart);
   }
+
+  void _addToCart(
+    AddToCart event,
+    Emitter<HomeScreenState> emit,
+  ) async {
+    await _homeRepository.addToCart(data: event.productListModel);
+  }
+
+  ValueStream<int> get cartCountStream =>
+      _homeRepository.cartCountDataStream;
 
   void _onFetchProducts(
     FetchProductsEvent event,

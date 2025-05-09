@@ -16,6 +16,14 @@ class ProductDetailsScreenBloc extends Bloc<ProductDetailsScreenEvent, ProductDe
     _homeRepository = homeRepository;
     on<FetchProductsDetailsEvent>(_onFetchProductsDetails);
     on<FetchSimilarProductEvent>(_onFetchSimilarProducts);
+    on<AddToCart>(_addToCart);
+  }
+
+  void _addToCart(
+    AddToCart event,
+    Emitter<ProductDetailsScreenState> emit,
+  ) async {
+    await _homeRepository.addToCart(data: event.productListModel);
   }
 
   void _onFetchProductsDetails(

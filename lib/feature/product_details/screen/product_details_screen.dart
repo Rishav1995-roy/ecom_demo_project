@@ -149,13 +149,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   fontColor: Colors.black,
                                 ),
                               ),
-                              Container(
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  context.read<ProductDetailsScreenBloc>().add(
+                                        AddToCart(
+                                          productListModel: productData!,
+                                        ),
+                                      );
+                                },
+                                child: Container(
                                   color: Colors.white.withValues(alpha: 0.6),
                                   padding: const EdgeInsets.all(5),
                                   child: Icon(
                                     Icons.add_shopping_cart,
                                     color: Colors.black,
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

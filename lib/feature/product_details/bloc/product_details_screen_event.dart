@@ -22,3 +22,12 @@ class FetchSimilarProductEvent extends ProductDetailsScreenEvent {
   @override 
   List<Object?> get props => [productID];
 }
+
+class AddToCart extends ProductDetailsScreenEvent {
+  final ProductListModel productListModel;
+
+  AddToCart({required this.productListModel});
+
+  @override 
+  List<Object?> get props => [productListModel];
+}

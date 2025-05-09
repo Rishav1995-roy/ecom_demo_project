@@ -5,7 +5,11 @@ import 'package:ecom_demo/utils/strings.dart';
 import 'package:flutter/material.dart';
 
 class HomeAppBarWidget extends StatelessWidget {
-  const HomeAppBarWidget({super.key});
+  final int count;
+  const HomeAppBarWidget({
+    super.key,
+    required this.count,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +30,37 @@ class HomeAppBarWidget extends StatelessWidget {
               fontColor: Colors.black,
             ),
           ),
-          AssetImageWidget(
-            imageData: Images.cart,
-            imageWidth: 25,
-            imageHeight: 25,
+          Stack(
+            children: [
+              AssetImageWidget(
+                imageData: Images.cart,
+                imageWidth: 25,
+                imageHeight: 25,
+              ),
+              if (count > 0) ...[
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Text(
+                        count > 9 ? '9+' : count.toString(),
+                        style: CustomTextUtils.showPoppinsStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          fontColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),
