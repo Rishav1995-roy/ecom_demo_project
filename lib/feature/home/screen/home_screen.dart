@@ -101,6 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
             .toLowerCase()
             .contains(searchController.text.toLowerCase()))
         .toList();
+    if(mounted) {
+      setState(() {});
+    }
   }
 
   void _goToCatgeory(

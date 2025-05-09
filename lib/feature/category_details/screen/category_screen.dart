@@ -87,6 +87,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
             .toLowerCase()
             .contains(searchController.text.toLowerCase()))
         .toList();
+    if(mounted) {
+      setState(() {});
+    }    
   }
 
   void _fetechProducts(int l, int o) async {
