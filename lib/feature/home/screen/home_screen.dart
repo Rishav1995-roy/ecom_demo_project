@@ -1,5 +1,7 @@
 import 'package:connectivity_checker/connectivity_checker.dart';
+import 'package:ecom_demo/feature/home/Widget/appbar_widget.dart';
 import 'package:ecom_demo/feature/home/bloc/home_screen_bloc.dart';
+import 'package:ecom_demo/utils/context_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,14 +28,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-      ),
-      body: ConnectivityWidgetWrapper(
-        message: 'No Internet Connection detected',
-        child: Text(
-          'Welcome to the Home Screen!',
+    return SafeArea(
+      child: Scaffold(
+        body: ConnectivityWidgetWrapper(
+          message: 'No Internet Connection detected',
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: context.getWidth(),
+              height: context.getHeight(),
+              child: Column(
+                children: [
+                  HomeAppBarWidget(),
+                ],
+              ),
+            ),
+          )
         ),
       ),
     );
