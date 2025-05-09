@@ -19,6 +19,14 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     on<FetchProductsEvent>(_onFetchProducts);
     on<FetchCategoryEvent>(_onFetchCategory);
     on<AddToCart>(_addToCart);
+    on<GetCartCount>(_getCartCount);
+  }
+
+  void _getCartCount(
+    GetCartCount event,
+    Emitter<HomeScreenState> emit,
+  ) async {
+    _homeRepository.getCount();
   }
 
   void _addToCart(

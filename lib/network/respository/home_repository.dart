@@ -1,3 +1,4 @@
+import 'package:ecom_demo/models/cart_model.dart';
 import 'package:ecom_demo/models/category_list_model.dart';
 import 'package:ecom_demo/models/product_list_model.dart';
 import 'package:ecom_demo/network/end_points_service.dart';
@@ -101,12 +102,17 @@ class HomeRepository {
     getCount();
   } 
 
-  Future<void> removeFromCart({required ProductListModel data}) async{
-    LocalStorage.removeFromCart(data.id.toString());
+  Future<void> removeFromCart({required String productID}) async{
+    LocalStorage.removeFromCart(productID);
     getCount();
   } 
 
   void getCount() {
     _cartCountController.sink.add(LocalStorage.getCartItemCount());
-  }  
+  }
+
+  List<CartData> getCartItems() {
+    var data = LocalStorage.getCartItems();
+    return data;
+  }   
 }

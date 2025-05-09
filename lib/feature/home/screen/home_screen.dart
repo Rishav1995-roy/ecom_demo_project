@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
     required HomeRepository homeRepository,
   }) {
     return GoRoute(
-      name: 'splash',
+      name: 'home',
       path: HomeScreen.routeName,
       builder: (BuildContext context, GoRouterState state) {
         return BlocProvider(
@@ -65,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     context.afterWidgetBuilt(() {
       _fetchCategory(categoryLimit);
       _fetechProducts(productLimit, productOffset);
+      context.read<HomeScreenBloc>().add(GetCartCount());
     });
     categoryListViewController.addListener(() {
       if (categoryListViewController.position.atEdge &&

@@ -1,4 +1,5 @@
 import 'package:connectivity_checker/connectivity_checker.dart';
+import 'package:ecom_demo/feature/cart/screen/cart_screen.dart';
 import 'package:ecom_demo/feature/category_details/screen/category_screen.dart';
 import 'package:ecom_demo/feature/home/screen/home_screen.dart';
 import 'package:ecom_demo/feature/product_details/screen/product_details_screen.dart';
@@ -59,6 +60,9 @@ final GoRouter _router = GoRouter(
       homeRepository: locator<HomeRepository>(),
     ),
     ProductDetailsScreen.route(
+      homeRepository: locator<HomeRepository>(),
+    ),
+    CartScreen.route(
       homeRepository: locator<HomeRepository>(),
     ),
   ],

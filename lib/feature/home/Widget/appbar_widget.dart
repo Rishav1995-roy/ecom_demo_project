@@ -1,8 +1,10 @@
+import 'package:ecom_demo/feature/cart/screen/cart_screen.dart';
 import 'package:ecom_demo/utils/common_widget/custom_text_utils.dart';
 import 'package:ecom_demo/utils/common_widget/imgae_display_widget.dart';
 import 'package:ecom_demo/utils/images.dart';
 import 'package:ecom_demo/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeAppBarWidget extends StatelessWidget {
   final int count;
@@ -30,37 +32,42 @@ class HomeAppBarWidget extends StatelessWidget {
               fontColor: Colors.black,
             ),
           ),
-          Stack(
-            children: [
-              AssetImageWidget(
-                imageData: Images.cart,
-                imageWidth: 25,
-                imageHeight: 25,
-              ),
-              if (count > 0) ...[
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    width: 15,
-                    height: 15,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
-                      child: Text(
-                        count > 9 ? '9+' : count.toString(),
-                        style: CustomTextUtils.showPoppinsStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          fontColor: Colors.white,
+          GestureDetector(
+            onTap: () {
+              context.push(CartScreen.routeName);
+            },
+            child: Stack(
+              children: [
+                AssetImageWidget(
+                  imageData: Images.cart,
+                  imageWidth: 25,
+                  imageHeight: 25,
+                ),
+                if (count > 0) ...[
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Center(
+                        child: Text(
+                          count > 9 ? '9+' : count.toString(),
+                          style: CustomTextUtils.showPoppinsStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            fontColor: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ],
       ),

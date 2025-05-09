@@ -32,3 +32,11 @@ class AddToCart extends HomeScreenEvent {
   @override 
   List<Object?> get props => [productListModel];
 }
+
+class GetCartCount extends HomeScreenEvent {
+
+  GetCartCount();
+
+  @override 
+  List<Object?> get props => [];
+}
