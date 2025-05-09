@@ -1,3 +1,4 @@
+import 'package:ecom_demo/models/category_list_model.dart';
 import 'package:ecom_demo/models/product_list_model.dart';
 import 'package:ecom_demo/network/respository/home_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -15,6 +16,7 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   }): super(HomeScreenInitial()) {
     _homeRepository = homeRepository;
     on<FetchProductsEvent>(_onFetchProducts);
+    on<FetchCategoryEvent>(_onFetchCategory);
   }
 
   void _onFetchProducts(
@@ -30,6 +32,21 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
       emit(ProductListLoaded(productList));
     } catch (e) {
       emit(ProductListError(e.toString()));
+    }
+  }
+
+  void _onFetchCategory(
+    FetchCategoryEvent event,
+    Emitter<HomeScreenState> emit,
+  ) async {
+    emit(CategoryListLoading());
+    try {
+      final List<CategoryListModel> categoryList = await _homeRepository.getCategories(
+        limit: event.limit,
+      );
+      emit(CategoryListLoaded(categoryList));
+    } catch (e) {
+      emit(CategoryListError(e.toString()));
     }
   }
 

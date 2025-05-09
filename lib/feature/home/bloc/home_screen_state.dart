@@ -24,3 +24,22 @@ class ProductListError extends HomeScreenState {
   @override
   List<Object?> get props => [error];
 }
+
+class CategoryListLoading extends HomeScreenState {}
+class CategoryListLoaded extends HomeScreenState {
+  final List<CategoryListModel> categoryList;
+
+  CategoryListLoaded(this.categoryList);
+
+  @override
+  List<Object?> get props => [categoryList];
+}
+
+class CategoryListError extends HomeScreenState {
+  final String error;
+
+  CategoryListError(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

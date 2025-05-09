@@ -14,3 +14,12 @@ class FetchProductsEvent extends HomeScreenEvent {
   @override 
   List<Object?> get props => [offset, limit];
 }
+
+class FetchCategoryEvent extends HomeScreenEvent {
+  final int limit;
+
+  FetchCategoryEvent({required this.limit});
+
+  @override 
+  List<Object?> get props => [limit];
+}

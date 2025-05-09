@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:ecom_demo/utils/strings.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient {
@@ -14,7 +15,7 @@ class HttpClient {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
     if (connectivityResult.contains(ConnectivityResult.none)) {
-      return Future.error('No internet connection detected');
+      return Future.error(Strings.noInternet);
     } else {
       try {
         var requestHeaders = {
